@@ -90,7 +90,7 @@ MIGRATION_MODULES = {
     'sites': 'experimento_twitter.contrib.sites.migrations'
 }
 
-ALLOWED_HOSTS = ['.c9users.io', '.us-east-2.amazonaws.com', 'de2e23debc4241ad977d59c4f4644228.vfs.cloud9.us-east-2.amazonaws.com']
+ALLOWED_HOSTS = ['.c9users.io', '.us-east-2.amazonaws.com', 'eb9caaaec567413da97595a5995c328f.vfs.cloud9.us-east-2.amazonaws.com']
 
 # AUTHENTICATION
 # ------------------------------------------------------------------------------

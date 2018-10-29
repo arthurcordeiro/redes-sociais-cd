@@ -12,7 +12,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "0.0.0.0",
     "127.0.0.1",
-    'de2e23debc4241ad977d59c4f4644228.vfs.cloud9.us-east-2.amazonaws.com'
+    '.us-east-2.amazonaws.com'
 ]
 
 # CACHES
