@@ -1,5 +1,13 @@
 Experimento Twitter
 ===================
+Basic Commands
+--------------
+Iniciar servidor:
+
+source env/bin/activate
+cd redes-sociais-cd/
+python3 manage.py runserver $IP:$PORT
+---------------
 
 Behold My Awesome Project!
 
@@ -18,8 +26,6 @@ Moved to settings_.
 
 .. _settings: http://cookiecutter-django.readthedocs.io/en/latest/settings.html
 
-Basic Commands
---------------
 
 Setting Up Your Users
 ^^^^^^^^^^^^^^^^^^^^^

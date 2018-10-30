@@ -78,6 +78,7 @@ THIRD_PARTY_APPS = [
 ]
 LOCAL_APPS = [
     'experimento_twitter.users.apps.UsersAppConfig',
+    'redes.apps.RedesConfig',
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
