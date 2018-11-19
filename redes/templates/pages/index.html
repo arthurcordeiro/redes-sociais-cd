@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="_ico/favicon.ico">
+<title>Relatório Redes Sociais - Câmara dos Deputados</title>
+
+<!-- Bootstrap core CSS -->
+<link href="_css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="_css/form-validation.css" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+<style>
+	
+body {
+    font-family: 'Lato', sans-serif;
+    font-size: 100%;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: .01em;
+    color: #141a2e;
+    background: white;
+    height: 100%;
+}
+canvas {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+}
+h2 {
+    text-transform: uppercase;
+    letter-spacing: .08em;
+}
+
+#canvas {
+	width: 100%;
+	display: none;
+}
+
+.card {
+    background: transparent;
+    -webkit-box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    border-top: 1px solid #4573db;
+    padding: 15px 20px;
+	margin: 30px 0;
+}
+
+.card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 0;
+}
+
+.chart-container {
+	width: 500px;
+	margin-left: 40px;
+	margin-right: 40px;
+	margin-bottom: 40px;
+}
+table {
+	margin-top: 20px;
+	border-collapse: collapse;
+	display: none;
+}
+table th, table td {
+	border: 1px solid #000;
+	padding: 5px 10px;
+}
+ div.Tweet-body.e-entry-content > p white-space: pre-wrap;
+ cursor: text;
+ word-wrap: break-word;
+ overflow: hidden !important;
+ text-overflow: ellipsis !important;
+}
+.btn.btn-primary:focus, .btn-primary.focus {
+	box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.5) !important;
+}
+.page-break {
+	page-break-inside: avoid;
+}
+
+@media print {
+.no-print, .no-print * {
+	display: none !important;
+}
+.page-break {
+	page-break-inside: avoid;
+}
+}
+.statsTweet {
+	margin-bottom: 10px;
+}
+.statsTweet .card-body {
+	padding: 3px;
+	background-color: #ecf0f1;
+}
+.detalheTweet {
+	width: 64px;
+	display: inline;
+	font-size: 14px;
+	margin: 0 5px;
+	color: #34495e;
+	font: Helvetica, Roboto, "Segoe UI", Calibri, sans-serif;
+	text-decoration: none;
+	text-decoration-color: transparent;
+	outline: 0;
+}
+.linkDetalheTweet, .linkDetalheTweet:hover, .linkDetalheTweet:visited {
+	text-decoration: none;
+	text-decoration-color: transparent;
+	outline: 0;
+	text-decoration-line: none;
+}
+a {
+	text-decoration: none;
+}
+.btn-twitter {
+	width:100%;
+	padding: 0px 14px;
+}
+
+
+</style>
+</head>
+
+<body>
+<div class="container">
+  <div class="py-5 text-center"> <img class="d-block mx-auto mb-4" src="_svg/camaradeputados-solid.svg" alt="" width="250" height="auto">
+    <h2 class="">Relatório Twitter</h2>
+    <p class="lead d-print-none">Baixe o <a href="https://analytics.twitter.com/user/camaradeputados/tweets">arquivo do Twitter</a> e converta para o Excel <br>
+      (<a href="_xls/tweet_activity_metrics_camaradeputados_20180921_20181019_pt.xlsx">Ou baixe um demo</a>)</p>
+    <div class="input-group d-print-none">
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="excelfile">
+        <label class="custom-file-label" for="inputGroupFile04">Selecione o arquivo</label>
+      </div>
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" onclick="gerarRelatorio()">Processar</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class='col-sm-6'>
+      <input type='text' class="form-control" id='datainicio' value="04/01/2018" />
+    </div>
+    <div class='col-sm-6'>
+      <input type='text' class="form-control" id='datafim' value="10/30/2018"/>
+    </div>
+  </div>
+    <div id="charts">
+      <canvas id="canvas1"></canvas>
+      <canvas id="canvas2"></canvas>
+    </div>
+  <div id="tweets">
+  </div>
+  <footer class="text-muted text-center text-small">
+    <p class="mb-1">© 2018 Câmara dos Deputados</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="https://getbootstrap.com/docs/4.1/examples/checkout/#">Privacidade</a></li>
+      <li class="list-inline-item"><a href="https://getbootstrap.com/docs/4.1/examples/checkout/#">Termos de uso</a></li>
+      <li class="list-inline-item"><a href="https://getbootstrap.com/docs/4.1/examples/checkout/#">Suporte</a></li>
+    </ul>
+  </footer>
+</div>
+<!-- Bootstrap core JavaScript
+    ================================================== --> 
+<!-- Placed at the end of the document so the pages load faster --> 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script> 
+<script src="_js/chart.js/dist/Chart.bundle.js"></script> 
+<script src="_js/chart.js/samples/utils.js"></script> 
+<script src="_js/moment.js"></script> 
+<script src="_js/jquery-3.3.1.slim.min.js"></script> 
+<script>window.jQuery || document.write('<script src="_js/jquery-slim.min.js"><\/script>')</script> 
+<script src="_js/popper.min.js"></script> 
+<script src="_js/bootstrap.min.js"></script> 
+<script src="_js/holder.min.js"></script> 
+<script src="_js/tinysort.min.js"></script> 
+<script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+
+		function gerarRelatorio() {
+			var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
+			/*Checks whether the file is a valid excel file*/
+			if (regex.test($("#excelfile").val().toLowerCase())) {
+				var xlsxflag = false; /*Flag for checking whether excel is .xls format or .xlsx format*/
+				if ($("#excelfile").val().toLowerCase().indexOf(".xlsx") > 0) {
+					xlsxflag = true;
+				}
+				/*Checks whether the browser supports HTML5*/
+				if (typeof (FileReader) != "undefined") {
+					var reader = new FileReader();
+					reader.onload = function (e) {
+						var data = e.target.result;
+						/*Converts the excel data in to object*/
+						if (xlsxflag) {
+							var workbook = XLSX.read(data, { type: 'binary' });
+						}
+						else {
+							var workbook = XLS.read(data, { type: 'binary' });
+						}
+						/*Gets all the sheetnames of excel in to a variable*/
+						var sheet_name_list = workbook.SheetNames;
+
+						var cnt = 0; /*This is used for restricting the script to consider only first sheet of excel*/
+						sheet_name_list.forEach(function (y) { /*Iterate through all sheets*/
+							/*Convert the cell value to Json*/
+							if (xlsxflag) {
+								var exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
+							}
+							else {
+								var exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);
+							}
+							if (exceljson.length > 0 && cnt == 0) {
+								
+								var datainicio = new Date($('#datainicio').val());
+								//datainicio = moment(datainicio).format("DD/MM/YYYY");
+								
+								var datafim = new Date($('#datafim').val());
+								//datafim = moment(datafim).format("DD/MM/YYYY");
+								
+								montarGraficoTwitter(exceljson, datainicio, datafim);
+								montarListaTweets(exceljson, datainicio, datafim);
+								cnt++;
+							}
+						});
+						$('#exceltable').show();
+					}
+					if (xlsxflag) {/*If excel file is .xlsx extension than creates a Array Buffer from excel*/
+						reader.readAsArrayBuffer($("#excelfile")[0].files[0]);
+					}
+					else {
+						reader.readAsBinaryString($("#excelfile")[0].files[0]);
+					}
+				}
+				else {
+					alert("Sorry! Your browser does not support HTML5!");
+				}
+			}
+			else {
+				alert("Please upload a valid Excel file!");
+				$("#excelfile").val("_xls/tweet_activity_metrics_camaradeputados.xlsx");
+				
+			}
+		}
+
+		function montarListaTweets(jsondata, datainicio, datafim) {
+			
+			$("#tweets").empty();
+			criarListaTweets(jsondata, datainicio, datafim, 'maior alcance', 'impressões', 'desc');
+			criarListaTweets(jsondata, datainicio, datafim, 'maior interação', 'interações', 'desc');
+			criarListaTweets(jsondata, datainicio, datafim, 'mais respostas', 'respostas', 'desc');
+			criarListaTweets(jsondata, datainicio, datafim, 'maior taxa de envolvimento', 'taxa de envolvimento', 'desc');
+			$('[data-toggle="tooltip"]').tooltip();
+			twttr.widgets.load();
+
+		}
+		
+		function criarListaTweets(jsondata, datainicio, datafim, title, field, sort) {
+			
+			var limiteTweets = 3;
+			var totalTweets = 0;
+			var idTweets = "#tweets";
+			var datatweet = "";
+			var jsonDataSorted = sortJsonNumber(jsondata, field, sort);
+			var tweets = '<div class="card"><div class="card-body"><h5 class="card-title">' + title + '</h5><div class="row">';
+
+			for (var i = 0; i < jsondata.length; i++) {
+
+				datatweet = new Date(jsonDataSorted[i]["horário"]);
+				dataUltimoPost = moment(datatweet).format("DD/MM/YYYY");
+				impressao = parseInt(jsonDataSorted[i]["impressões"]);
+				interacao = parseInt(jsonDataSorted[i]["interações"]);
+				resposta = parseInt(jsonDataSorted[i]["respostas"]);
+				engajamento = (interacao/impressao).toFixed(3);
+				link = jsonDataSorted[i]["link permanente do Tweet"];
+				texto = jsonDataSorted[i]["texto do Tweet"];
+		
+				if (datatweet >= datainicio && datatweet <= datafim && totalTweets < limiteTweets) {
+					
+					tweets = tweets + '<div class="col-sm-6 col-md-4"><div class="tweet" data-alcance="' + impressao + '" data-interacao="' + interacao + '" data-engajamento="' + engajamento + '"><blockquote class="twitter-tweet" data-lang="pt" data-conversation="none" data-cards="hidden"><p lang="pt" dir="ltr">' + texto + '</p>&mdash; Câmara dos Deputados (@camaradeputados) <a class="linkDetalheTweet" href="' + link + '?ref_src=twsrc%5Etfw">' + datatweet + '</a></blockquote></div><div class="statsTweet"><div class=""><div class="detalheTweet" data-toggle="tooltip" title="Alcance"><i class="fas fa-print"></i> ' + impressao + '</div><div class="detalheTweet" data-toggle="tooltip" title="Interação"><i class="fas fa-hand-point-up"></i> ' + interacao + '</div><div class="detalheTweet" data-toggle="tooltip" title="Taxa de engajamento"><i class="fas fa-cogs"></i> ' + engajamento + '</div><div class="detalheTweet" data-toggle="tooltip" title="Quantidade de respostas"><i class="fas fa-comment"></i> ' + resposta + '</div></div></div><a class="linkDetalheTweet" target="_blank" href="' + link + '?ref_src=twsrc%5Etfw"><button type="button" class="btn btn-info btn-twitter"><i class="fab fa-twitter"></i></button></a></div>';
+					
+					totalTweets = totalTweets + 1;
+					
+				}
+			}
+			
+			tweets = tweets + '</div></div></div>';
+	
+			$(idTweets).append(tweets);
+	
+		}
+
+
+		function sortJSON(data, key, way) {
+			return data.sort(function(a, b) {
+				var x = a[key]; var y = b[key];
+				if (way === 'asc' ) { return ((x < y) ? -1 : ((x > y) ? 1 : 0)); }
+				if (way === 'desc') { return ((x > y) ? -1 : ((x < y) ? 1 : 0)); }
+			});
+		}
+	
+		function sortJsonNumber(data, key, way) {
+			return data.sort(function(a, b) {
+				var x = Number(a[key]); var y = Number(b[key]);
+				if (way === 'asc' ) { return ((x < y) ? -1 : ((x > y) ? 1 : 0)); }
+				if (way === 'desc') { return ((x > y) ? -1 : ((x < y) ? 1 : 0)); }
+			});
+		}
+	
+		function montarGraficoTwitter(jsondata, datainicio, datafim) {/*Function used to convert the JSON array to Html Table*/
+
+			var datatweet = ""
+			var dataFormatada = "";
+			var impressao = 0;
+			var totalImpressao = 0;
+			var labelGrafico = [];
+			var valorImpressao = [];
+			var valorInteracao = [];
+
+			for (var i = 0; i < jsondata.length; i++) {
+
+				datatweet = new Date(jsondata[i]["horário"]);
+				dataUltimoPost = moment(datatweet).format("DD/MM/YYYY");
+				impressao = parseInt(jsondata[i]["impressões"]);
+				interacao = parseInt(jsondata[i]["interações"]);
+				engajamento = interacao/impressao;
+				link = jsondata[i]["link permanente do Tweet"];
+				texto = jsondata[i]["texto do Tweet"];
+				
+				if (datatweet >= datainicio && datatweet <= datafim) {
+					if (dataFormatada!=dataUltimoPost) {
+						if(dataFormatada!="") {
+							labelGrafico.push(dataFormatada);
+							valorImpressao.push(totalImpressao);
+							valorInteracao.push(totalInteracao);
+						}
+						dataFormatada =	dataUltimoPost;
+						totalImpressao = impressao;
+						totalInteracao = interacao;
+					} else {
+						totalImpressao = totalImpressao + impressao;
+						totalInteracao = totalInteracao + interacao;
+					}
+				}
+				
+			}
+			
+			
+			$("#charts").empty();
+
+			criarGrafico("canvas1", "line", "Alcance no Twitter", "dia", labelGrafico, "Alcance", valorImpressao, "green", "green");
+			criarGrafico("canvas2", "line", "Interação no Twitter", "dia", labelGrafico, "Interação", valorInteracao, "blue", "blue");
+		}
+
+		function criarGrafico(idGrafico, tipoGrafico, tituloGrafico, labelEixoX, eixoX, labelEixoY, eixoY, backgroundColor, borderColor) {
+			var config = {
+				type: tipoGrafico,
+				data: {
+					labels: eixoX,
+					datasets: [{
+						label: labelEixoX,
+						fill: false,
+						backgroundColor: window.chartColors[backgroundColor],
+						borderColor: window.chartColors[borderColor],
+						data: eixoY,
+						showLine: true,
+					},]
+				},
+				options: {
+					responsive: true,
+					elements: {
+								line: {
+									tension: 0, // disables bezier curves
+								}
+							},
+					tooltips: {
+						mode: 'index',
+						intersect: false,
+					},
+					hover: {
+						mode: 'nearest',
+						intersect: true
+					},
+					scales: {
+						xAxes: [{
+							display: true,
+
+						}],
+						yAxes: [{
+							display: true,
+
+						}]
+					}
+				}
+			}
+			$("#charts").append('<div class="card"><div class="card-body"><h5 class="card-title">' + tituloGrafico + '</h5><canvas id="' + idGrafico + '"></canvas></div></div>');
+			var ctx = document.getElementById(idGrafico).getContext('2d');
+			window.myLine = new Chart(ctx, config);
+
+		};
+
+		function BindTable(jsondata, tableid) {/*Function used to convert the JSON array to Html Table*/
+			var columns = BindTableHeader(jsondata, tableid); /*Gets all the column headings of Excel*/
+			for (var i = 0; i < jsondata.length; i++) {
+				var row$ = $('<tr/>');
+				for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+					var cellValue = jsondata[i][columns[colIndex]];
+					if (cellValue == null)
+						cellValue = "";
+					row$.append($('<td/>').html(cellValue));
+				}
+				$(tableid).append(row$);
+			}
+		}
+	
+		function BindTableHeader(jsondata, tableid) {/*Function used to get all column names from JSON and bind the html table header*/
+			var columnSet = [];
+			var headerTr$ = $('<tr/>');
+			for (var i = 0; i < jsondata.length; i++) {
+				var rowHash = jsondata[i];
+				for (var key in rowHash) {
+					if (rowHash.hasOwnProperty(key)) {
+						if ($.inArray(key, columnSet) == -1) {/*Adding each unique column names to a variable array*/
+							columnSet.push(key);
+							headerTr$.append($('<th/>').html(key));
+						}
+					}
+				}
+			}
+			$(tableid).append(headerTr$);
+			return columnSet;
+		}
+
+
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+	
+	
+$(function () {
+	//$('#datetimepicker1').datetimepicker({format: 'DD/MM/YYYY'});
+	//$('#datetimepicker2').datetimepicker({format: 'DD/MM/YYYY'});
+});
+
+
+</script>
+</body>
+</html>

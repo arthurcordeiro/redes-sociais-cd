@@ -14,7 +14,10 @@ urlpatterns = [
         name="about",
     ),
     # Django Admin, use {% url 'admin:index' %}
-    path('redes/', include('redes.urls')),
+    path(
+        'redes/', 
+        include('redes.urls'),
+    ),
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
     path(
